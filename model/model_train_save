@@ -1,0 +1,26 @@
+# Step 1: importing required libraries
+import numpy as np
+import pandas as pd
+from sklearn.datasets import fetch_california_housing
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+import joblib
+
+# Step 2: load data
+X,y=fetch_california_housing(return_X_y=True)
+
+# Step 3: Split data in training and testing data sets
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2,random_state=2)
+
+# Step 4: Create a model and fit it
+# Create the regression model as an instance of LinearRegression and fit it with .fit():
+linear_reg=LinearRegression().fit(X_train,y_train)
+
+# Display model score
+r_sq=linear_reg.score(X_test,y_test)
+print(f"coefficient of determination/ Model Accuracy: {r_sq}")
+
+# Step 5: save trained modelusing Joblib
+joblib.dump(linear_reg, "model/House_price_prediction.joblib")
+np.save("model/feature_means.npy", X_train.mean(axis=0))
+
